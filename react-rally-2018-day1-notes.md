@@ -333,3 +333,97 @@ It's a react specific suspend effect wher ethe rect scheduler is the effect hand
 How does it work?
 
 behind the scene the caching libary actually uses throw to signal that a suspend efffect should be triggered
+
+# Chaos Monkeys in Your Browser: What Chaos Engineering Means for the Front End - Brian Holt
+
+Chaos Monkey, but for your web app. Come learn how intentional failure injection is not only good for the back end but also for the front end. Hint: it means you’ll get paged less at 3AM, and I think we’re all happy about that.
+
+Systems over time get more and more disordered
+
+Entropy -
+
+pinrciplesofchaois.rorg
+chaois engineering is the displine of experimenting on a distributed system in order to builld confidence in the systems capibility t ow ithstand turbulent condution in production.
+
+Tools:
+spinnaker -
+gramlin -
+azure offers fault analysiss service
+
+cda.ms/Cr
+
+# Explorable Explanations with React - Joshua Comeau
+
+Explorable explanations are dynamic, interactive, visual tools created to teach systems and concepts, the unlikely pairing of a video game and a data visualization. They’re an exciting new form of media that lets the learner develop an intuitive understanding of the subject.
+
+In this talk, we’ll reconstruct an existing explorable explanation on waveforms and sound. We’ll start from the bottom up, using small, bite-sized components that encapsulate specific UI or behavioural concerns, working our way up to a dynamic, interactive, animated tool.
+
+# AI For Everybody - Feather Knee (Front-End Dev @ nVidia)
+
+Sr UI Developer GPU CLoud @ nVidia
+
+My team is building a platform for AI in the cloud using React. The concept behind this project is to make AI accessible to anyone. "AI for you! AI for you too! And even you, over there, have some AI!" This talk will explore unique challenges of writing a complex React app in a totally new domain.
+
+## Intro to AI
+
+- New Yorker is a grat resource for AI influence discussion
+
+### Plenty of influence
+
+- piles of data - internet
+- processing power
+- mathematical algorithms
+
+A: Interrrupting cow?
+
+- toddler sees a cw, has no idea what it is
+- after many cows,we always recognize them even if they're wearing a hot
+
+model that recognizes faces
+skewed matrix = same face sideways
+more feedback = figure out more faces
+
+## React for AI AI
+
+- web interface -> api/cli -> machine learning libraries -> gpu -> job -> web interface
+- shared gpu server
+- ai is accessible to a wider audience
+- framework agnostic platform
+
+### Tools
+
+#### Recompose & RxJs
+
+- a great combo
+- can use Obserable of choice
+- map observable stream to React nodes
+
+#### Reselect
+
+- convenient way to grab values from the store
+- selectors are memoized
+
+#### Learnings
+
+## Conclusions
+
+# One Hundred Years of JavaScript - Justin Falcone
+
+JavaScript is the new COBOL: widely hated but hugely successful, JS defines populist programming in the 21st century much as COBOL did in the punchcard era. But COBOL never really went away -- there are COBOL programs still running our banks and civic institutions half a century after its heyday. Many JS apps will have similar lifespans, yet we struggle with the accumulated cruft of a two year-old codebase; how will we handle a hundred years? Let's examine how software can grow and adapt over the decades, so we can write code that won't be a burden to future generations.
+
+Agenda
+
+- bit rot
+- how programs learn
+- the old and new COBOLs
+- hundrd year bugs
+
+## bit rot
+
+## how programs learn
+
+high cohesion, low coupling
+
+## the old and new COBOLs
+
+## hundred year bugs
