@@ -427,3 +427,5 @@ high cohesion, low coupling
 ## the old and new COBOLs
 
 ## hundred year bugs
+
+# Conference DAY 2
