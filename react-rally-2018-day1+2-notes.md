@@ -428,4 +428,363 @@ high cohesion, low coupling
 
 ## hundred year bugs
 
-# Conference DAY 2
+# Conference Day 2
+
+# Ken Wheeler - ReasonML is serious business
+
+- Love song for your mother - his new album
+
+* ReasonML - New syntax and toolchain for ocomal
+
+* looks and feels like es6/s
+
+* npm/yarn based workflows
+
+* ML = Meta Language
+* stable, mature, 20 yo language
+* static types /type inference (hindley milner type system)
+
+* compiles ocomal code to javascript
+* super readable output
+* great interop story
+
+Named Arguments = ~
+
+```
+let singHook = (~name) => "hey " + name
+```
+
+## Records
+
+```
+type person = { age, int, name: string };
+let Ye  = { age: 41, name: "kanye west"}
+```
+
+## Variants
+
+```
+type Album = | NotWorth ListeningTO e|Album (string);
+```
+
+## Pattern Matching
+
+```
+let amount = 5;
+let result = switch(amount ) {
+  | amount when amount > 5 => "whoa buddy"
+  | 5 => "exact"
+  | _ => "almost there"
+}
+```
+
+## No nulls!
+
+let printList = (listOfTHings) => swithc()
+
+## No Import / Export
+
+## try out resason
+
+- repl.it
+- sketch.sh
+
+# Lauren Tan - Swipe Left, Uncaught TypeError: Learning to Love Type Systems
+
+**Engineering Manager @ Netflix**
+
+Sometimes, undefined is not a function. As mortal programmers, we ship bugs to production everyday. Bugs slow us down, frustrate our users, and cause us to have crises of confidence. Don't go alone–type systems in TypeScript, Flow, and GraphQL can improve your confidence and help you ship less bugs. We'll start with why: a practical look at what you'll get from embracing types. Then, a gentle introduction to the ideas behind them. Finally, we'll explore the possibilities of a type system over the network.
+
+## What is a type system?
+
+- https://github.com/donavon/undefined-is-a-function
+
+## How many ways can this program fail?
+
+(infinity)
+
+```
+const half = x => x / 2;
+
+const TEST_CASES = [
+  null,
+  undefined,
+  Symbol(1),
+]
+
+TEST_CASES.map(t => half(t))
+```
+
+## The Basics
+
+```ts
+const list1 = [1,2,3];
+type ServerStacks = 'canary' | 'beta' | production'
+
+interface User {
+id: number;
+name: string;
+isAdmin: boolean;
+}
+function makeAdmin(user: User) {
+user.isAdmin = 1; //error
+}
+```
+
+## Generics (parametric polymorphism)
+
+```ts
+function makeArray(x: number): number[] {
+  return [x];
+}
+function makeArray(x: number): number[] {
+  return [x];
+}
+// let T be the type of argument X
+// specify the return type functoin which is an array of objects of type T
+function makeArray<T>(x: T): T[] {
+  return [x];
+}
+```
+
+```
+function map<A,B>(fn: (item: A) => B, items: A[]) {
+
+}
+```
+
+## Why less is better - precise types means less bugs
+
+Your function and classes teach us
+
+# Learning from Functional Programming
+
+```
+declare function Addition(x: number, y:number): number // proposition
+```
+
+- types are propositoins
+- programs are proofs
+
+# pure vs impure functions
+
+- partial function is a function that is not defined for all possible input values
+- total functoin is a function is defined for all possible values and will not Error or throw exceptions
+- All fetch function are partial because it can fail, but you can use a monad to always get valid return
+- https://github.com/gcanti/fp-ts
+- https://gcanti.github.io/fp-ts/
+
+```ts
+import { Eiter, left, right } from "fp-ts";
+// capture failure value
+type Either<L, A> = Left<L, A> | Right<L, A>;
+// does not capture failure value
+```
+
+## Pragmatic Set Theory
+
+- `type Conferences = 'a' | 'b' | 'c'`
+- If there are 3 possible options, then the
+- Finite cardinality = boolean (2), null (1), undefined (1)
+
+## Unbounded Function
+
+```ts
+function toString<T>(x: T): string {
+  return x.toString();
+}
+// bounded "total" functoin
+function toString<T>(x: NonNUllable<T>): string {
+  return x.toString();
+}
+```
+
+## Functional Types added with Conditional Types in 2.8
+
+https://github.com/Microsoft/TypeScript/blob/master/lib/lib.es5.d.ts
+
+```ts
+interface ArrayLike<T> {
+  readonly length: number;
+  readonly [n: number]: T;
+}
+
+/**
+ * Make all properties in T optional
+ */
+type Partial<T> = { [P in keyof T]?: T[P] };
+
+/**
+ * Make all properties in T required
+ */
+type Required<T> = { [P in keyof T]-?: T[P] };
+
+/**
+ * Make all properties in T readonly
+ */
+type Readonly<T> = { readonly [P in keyof T]: T[P] };
+
+/**
+ * From T pick a set of properties K
+ */
+type Pick<T, K extends keyof T> = { [P in K]: T[P] };
+
+/**
+ * Construct a type with a set of properties K of type T
+ */
+type Record<K extends keyof any, T> = { [P in K]: T };
+
+/**
+ * Exclude from T those types that are assignable to U
+ */
+type Exclude<T, U> = T extends U ? never : T;
+
+/**
+ * Extract from T those types that are assignable to U
+ */
+type Extract<T, U> = T extends U ? T : never;
+
+/**
+ * Exclude null and undefined from T
+ */
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+/**
+ * Obtain the return type of a function type
+ */
+type ReturnType<T extends (...args: any[]) => any> = T extends (
+  ...args: any[]
+) => infer R
+  ? R
+  : any;
+
+/**
+ * Obtain the return type of a constructor function type
+ */
+type InstanceType<T extends new (...args: any[]) => any> = T extends new (
+  ...args: any[]
+) => infer R
+  ? R
+  : any;
+
+/**
+ * Marker for contextual 'this' type
+ */
+interface ThisType<T> {}
+```
+
+### Predefined conditional types
+
+https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
+TypeScript 2.8 adds several predefined conditional types to lib.d.ts:
+
+Exclude<T, U> – Exclude from T those types that are assignable to U.
+Extract<T, U> – Extract from T those types that are assignable to U.
+NonNullable<T> – Exclude null and undefined from T.
+ReturnType<T> – Obtain the return type of a function type.
+InstanceType<T> – Obtain the instance type of a constructor function type.
+Example
+
+```ts
+type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; // "b" | "d"
+type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">; // "a" | "c"
+
+type T02 = Exclude<string | number | (() => void), Function>; // string | number
+type T03 = Extract<string | number | (() => void), Function>; // () => void
+
+type T04 = NonNullable<string | number | undefined>; // string | number
+type T05 = NonNullable<(() => string) | string[] | null | undefined>; // (() => string) | string[]
+
+function f1(s: string) {
+return { a: 1, b: s };
+}
+
+class C {
+x = 0;
+y = 0;
+}
+
+type T10 = ReturnType<() => string>; // string
+type T11 = ReturnType<(s: string) => void>; // void
+type T12 = ReturnType<(<T>() => T)>; // {}
+type T13 = ReturnType<(<T extends U, U extends number[]>() => T)>; // number[]
+type T14 = ReturnType<typeof f1>; // { a: number, b: string }
+type T15 = ReturnType<any>; // any
+type T16 = ReturnType<never>; // any
+type T17 = ReturnType<string>; // Error
+type T18 = ReturnType<Function>; // Error
+
+type T20 = InstanceType<typeof C>; // C
+type T21 = InstanceType<any>; // any
+type T22 = InstanceType<never>; // any
+type T23 = InstanceType<string>; // Error
+type T24 = InstanceType<Function>; // Error
+
+Note: The Exclude type is a proper implementation of the Diff type suggested here. We’ve used the name Exclude to avoid breaking existing code that defines a Diff, plus we feel that name better conveys the semantics of the type. We did not include the Omit<T, K> type because it is trivially written as Pick<T, Exclude<keyof T, K>>.
+```
+
+# Help me WebAssembly, you're my only hope! - Jay Phelps
+
+Cheif Software Architect this dot - previously Netflix
+
+WebAssembly (aka wasm) is a new, standardized compilation target for the web, shipping in all modern browsers. But since it's so low level it can be difficult to see how it will revolutionize the next generation of web apps–and definitely not just games and C++!
+
+In this talk I will reveal what it is, how you can use it today, and the incredible opportunities it will unlock in the years to come on both the Web and on Desktop. We'll also explore how React itself might some day use WebAssembly to power it's Virtual DOM.
+
+## What is WebAssembly? WASM
+
+- Efficient low-level byte code for the web
+- Fast to load and execute
+- Streaming compilation - compiled faster than it downloads
+
+you cna push into arry.protype totally mess up all empty array
+
+```js
+Array.protoype.push("lol");
+```
+
+- Fully spec compliant javascript would be extremely slow
+- But a strict subset of javascript could be fast
+- v1 mvp is est suited for Rust
+- But other language are already support and more coming soon
+- Things like go. net, java, ocaml
+
+- When should i target web-assmebly
+- heavily cpu bound computations
+- games both unity and unreal engine offer support
+
+- porting desktop apps
+
+  - autocad web.autocad.com
+
+- source-mano npm package used by creat-react-app, firefix, babel, less, etc
+- ported their c++ source map code to web assembly
+
+- https://github.com/AssemblyScript/assemblyscript
+- https://webassembly.studio/
+- TypeScript -> WebAssembly
+  - https://webassembly.studio/?f=5u0yx178upg
+- https://github.com/AssemblyScript/assemblyscript/wiki
+
+* Tooling will eventually make the low-level a non-issue
+* Textual representation to the rescue
+* WebAssembly is a "stack machine" language
+* Stack = data structure with "push" or "pop"
+
+## Why not use it now?
+
+- There 's no direct access to host APIs (eg the DOM), you have to call into JavScript right now. The bridge over JS is very expensive.
+- Garbage Collection - necessary for better inerop with JavaScript and WebIDL
+- Multi-threading - SharedArrayBuffer re-enabled in Chrome 69 Beta
+- React component could also run in WebAssembly (writing them in Reason)
+
+## New things happening
+
+- Ember's Glimmer VM is being written in Rust compiled to WebAssembly
+- github.com/mbasso/awesome-wasm
+
+# Hot Garbage: Clean Code is Dead - Michael Chan
+
+The Code is rising up to enslave us. An army of linter-plugins have given it a voice and it's angry. Clean code isn't the goal, its the enemy. Great code isn't clean, it's hot garbage—hot-swappable and easy to throw out. Code is a means to an end. When we stop fetishizing code and start fighting it, we've found the right enemy and we can get back to to the good work of serving customers.
+
+# I'm exploring a monorepo arhcitecture for my legos so I cant find you a single lego set
