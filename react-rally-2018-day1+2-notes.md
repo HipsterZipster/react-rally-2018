@@ -787,4 +787,104 @@ Array.protoype.push("lol");
 
 The Code is rising up to enslave us. An army of linter-plugins have given it a voice and it's angry. Clean code isn't the goal, its the enemy. Great code isn't clean, it's hot garbage—hot-swappable and easy to throw out. Code is a means to an end. When we stop fetishizing code and start fighting it, we've found the right enemy and we can get back to to the good work of serving customers.
 
-# I'm exploring a monorepo arhcitecture for my legos so I cant find you a single lego set
+## I'm exploring a monorepo arhcitecture for my legos so I cant find you a single lego set
+
+# React: Off the Grid (Progressive Web App) by Sophia Shoemaker
+
+Creating a React application for orphans in Ghana offered some unique challenges. Progressive Web Apps (PWAs) are more than just "cool" or "hip" — they can be really important for applications where the internet is spotty, if available at all. Learn why I chose React + AWS Lambda for a country with poor internet connectivity, and general lessons on the often messy and exciting world of creating offline applications.
+
+# Babel 7 and Beyond - Henry Zhu
+
+It's been a year in the making.. what are the big changes in Babel 7 and what initiatives are we planning to work on for the future of the project? Where are we moving overall and how can you help?
+
+https://github.com/babel/babel/blob/master/SONG.md
+
+- Concrete => Abstract
+- Open source sustainability
+
+# Translating React - Jennifer Wong - React Internals 101
+
+We often use React and write JSX without thinking about the syntax. But what’s React actually doing under the hood? What’s the JavaScript look like? Let’s translate React into JavaScript, transpile that and see what we get. Let’s pick apart what React is really doing and get at the heart of it. We’ll talk about the importance and usefulness of knowing its baselines for beginners and experts alike. We'll gain a clearer understanding of where React’s magic originates. So the next time you use React or write JSX, you’ll be secretly translating in your head for deeper insight and edification.
+
+## See egghead.io - The beginnner's guide to learning react - Kent c dodds
+
+# React Component Patterns - Kent C. Dodds -
+
+Don't you love how easy it is to encapsulate UI code into a React component? I do! Despite this, making those same components reusable can be a challenge. Our components often start simple, but then they have to adapt as unforeseen use cases come up. This often results in a growing list of props and complex implementation full of if statements and a confusing API. An inevitable rewrite of the component eventually hits and now we have two problems.
+
+Let's take a step back and consider some things we can do upfront to keep our components flexible, simple, and optimized for inevitable change.
+
+## What this talk is
+
+- typical lifecycle of a component
+- how patterns can simplify
+- it's not how to implement these patterns
+- Use react-testing-library
+- downshift
+- babel-plugin-macros
+- glamorous deprecated
+
+## Theme: Night Owl by Sarah Drasner
+
+## Font: Dank Mono
+
+- kcd.im - beginner course on egghead.io
+- kcd.im - advanced course on frontend master
+
+Features to take advantage of
+
+- state reducers
+- render props
+- providers
+- control props
+- compound components
+- IOC - inversion of control
+
+# Everything You Need to Know About GraphQL in 3 Components - Eve Porcello
+
+Three components: that’s all you need to know to start building React applications with GraphQL. In this talk, I’ll walk you through brand new ways to get data with the Query Component. We’ll examine how to change data in ways that will explode your mind with the Mutation Component. And just when you think you can’t handle any more excitement, we’ll bring out the Subscription Component. That’s all you’ll need to know to get hooked on GraphQL.
+
+Eve Porcello - Learning GraphQL
+GraphQL is a query language for our API - it's just a spec
+
+- GraphQL JS
+- Relay
+- Apollo
+- react-apollo - everything we need to get data rom a graphql endpoint
+
+graphql.fun/graphql
+
+```gql
+query {
+  playerCount
+  allPlayers {
+    login
+    name
+    avatar
+    team {
+      color {
+        name
+      }
+    }
+  }
+}
+
+mutation {
+  createTeams(count: 20) {
+    color {
+      name
+    }
+  }
+}
+```
+
+```jsx
+<Query query={ALLPLYERS}>
+{({ loading, data}) => <div> <button> creat teams</button>
+<div> 
+{!loading && data.allPlayers.map(p => <img src={p.avatar}  style={p.team && { borderRadius: '50%', border: `4px solid ${p.team.color.name}`}}/>)}
+}
+
+
+</Query>
+```
