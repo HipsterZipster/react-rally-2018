@@ -601,6 +601,10 @@ function toString<T>(x: NonNUllable<T>): string {
 
 ## Functional Types added with Conditional Types in 2.8
 
+### Predefined conditional types
+https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
+TypeScript 2.8 adds several predefined conditional types to lib.d.ts:
+
 https://github.com/Microsoft/TypeScript/blob/master/lib/lib.es5.d.ts
 
 ```ts
@@ -671,56 +675,6 @@ type InstanceType<T extends new (...args: any[]) => any> = T extends new (
  * Marker for contextual 'this' type
  */
 interface ThisType<T> {}
-```
-
-### Predefined conditional types
-
-https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html
-TypeScript 2.8 adds several predefined conditional types to lib.d.ts:
-
-Exclude<T, U> – Exclude from T those types that are assignable to U.
-Extract<T, U> – Extract from T those types that are assignable to U.
-NonNullable<T> – Exclude null and undefined from T.
-ReturnType<T> – Obtain the return type of a function type.
-InstanceType<T> – Obtain the instance type of a constructor function type.
-Example
-
-```ts
-type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">; // "b" | "d"
-type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">; // "a" | "c"
-
-type T02 = Exclude<string | number | (() => void), Function>; // string | number
-type T03 = Extract<string | number | (() => void), Function>; // () => void
-
-type T04 = NonNullable<string | number | undefined>; // string | number
-type T05 = NonNullable<(() => string) | string[] | null | undefined>; // (() => string) | string[]
-
-function f1(s: string) {
-return { a: 1, b: s };
-}
-
-class C {
-x = 0;
-y = 0;
-}
-
-type T10 = ReturnType<() => string>; // string
-type T11 = ReturnType<(s: string) => void>; // void
-type T12 = ReturnType<(<T>() => T)>; // {}
-type T13 = ReturnType<(<T extends U, U extends number[]>() => T)>; // number[]
-type T14 = ReturnType<typeof f1>; // { a: number, b: string }
-type T15 = ReturnType<any>; // any
-type T16 = ReturnType<never>; // any
-type T17 = ReturnType<string>; // Error
-type T18 = ReturnType<Function>; // Error
-
-type T20 = InstanceType<typeof C>; // C
-type T21 = InstanceType<any>; // any
-type T22 = InstanceType<never>; // any
-type T23 = InstanceType<string>; // Error
-type T24 = InstanceType<Function>; // Error
-
-Note: The Exclude type is a proper implementation of the Diff type suggested here. We’ve used the name Exclude to avoid breaking existing code that defines a Diff, plus we feel that name better conveys the semantics of the type. We did not include the Omit<T, K> type because it is trivially written as Pick<T, Exclude<keyof T, K>>.
 ```
 
 # Help me WebAssembly, you're my only hope! - Jay Phelps
@@ -887,4 +841,94 @@ mutation {
 
 
 </Query>
+```
+
+
+# Ryan Florence - React Suspense
+
+Render props - going away
+
+- Web and native load data differently
+  - mobile switches immediately
+  - web pauses and then goes to it when its loaded fro mserver
+
+```js
+<Route
+  onEnter={(state, replace, cb) => {
+    fetch(stufff).then(() => cb());
+  }}
+/>
+```
+
+- vue and angular also followed
+- client routers wait for the data, but apps have a choice
+- as a router, do we wait or not wait to load the next page? if we dont wait, do we show a spinner while the api calls returns?
+- react router v4 took away the onEnter so that's all there was
+
+Fast - wait yes, spin no
+Slow - wait no, spin yes
+
+What about if we can wait for 2 sec max and then show spinners if it still hasn't come back?
+
+Live Code Demo:
+
+- taking a component that's using the old router approach, is the data loaded? nope, show spinner, otherwise render
+
+With react suspense this gets a lot easier
+
+- we use resources
+
+```
+const workout = WorkoutResource.read(cache, workoutId);
+```
+
+These readers actually make a promise
+
+If you do want a spinnner add a placeholer
+
+```jsx
+<Placeholder delayMs={1000} fallback={<Spinner />}>
+  <Exercises workoutId={workoutId} />
+</Placeholder>;
+/// OR
+{
+  workout.completed && (
+    <Placeholder delayMs={1000} fallback={<Spinner />}>
+      <NextWorkout nextWorkout={nextWorkout} />
+    </Placeholder>
+  );
+}
+/// OR
+// to prevent the waterfall issue where the exercises
+ExercisesResource.preload(cache, workoutId);
+```
+
+"Reach Router"
+
+How to transition from one layer to another is no longer the router's concern, it's now in the component render block. Put some placeholders around the component and resources
+
+React Core Team
+
+- Andrew Clark
+- Dan ABramov gaearon
+- Flarnie Marchan
+- Sebastian Markbage
+- Sophie Albert
+- Brian Vaughn
+- Dominic Gannaway trueadm
+- Ryan Florence
+
+When we scroll through a screen and then click a link and then hit the back button, we want to end up where we started in the scroll.
+
+Reach Router supports relative links so you can navigate within the own page.
+
+With suspense and time slicing, you can rewrite the url as a user types into a field. Previously the Router sat above the active component as an HOC so any change meant rerendering anything beneath it.
+
+When the location changes instead of just calling setstate, it uses something called "deferredChange' which is a low priority update, much lower than a user typing.
+
+A lot of redux use cases go away as well since now each resource has its own cache.
+Every cache miss kicks off a new request and suspends it.
+
+```jsx
+const Competitions = React.lazy(() => import("./Compeitions"));
 ```
